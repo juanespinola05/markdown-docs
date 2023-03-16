@@ -1,6 +1,7 @@
-import { User } from '@/types'
+import { UseUserHook } from '@/context/user'
+import { UserData } from '@/types'
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, User, Unsubscribe, UserCredential } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCR9VMoa3z7WSDNvfkeXNJh8MsM5dWQUME',
@@ -15,14 +16,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 
-export const loginWithGoogle = async (): Promise<User> => {
-  const googleProvider = new GoogleAuthProvider()
-  return await signInWithPopup(auth, googleProvider).then(credentials => {
-    const { displayName, photoURL, email } = credentials.user
-    return {
-      displayName,
-      photoURL,
-      email
-    }
+const mapUserFromFirebaseAuth = (user: User | null): UserData | null => {
+  if (user === null) return null
+  const { displayName, photoURL, email } = user
+  return {
+    displayName,
+    photoURL,
+    email
+  }
+}
+
+export const authStateChanged = (onChange: UseUserHook['setUser']): Unsubscribe => {
+  return onAuthStateChanged(auth, (data) => {
+    const user = data !== null ? mapUserFromFirebaseAuth(data) : data
+    onChange(user)
   })
+}
+
+export const loginWithGoogle = async (): Promise<UserCredential> => {
+  const googleProvider = new GoogleAuthProvider()
+  return await signInWithPopup(auth, googleProvider)
 }
