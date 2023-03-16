@@ -1,21 +1,17 @@
-import Header from '@/components/Header'
-import LoginButton from '@/components/LoginButton'
-import { loginWithGoogle } from '@/firebase/client'
-import { User } from '@/types'
+import { useUser } from '@/context/user'
+import { authStateChanged } from '@/firebase/client'
 import Head from 'next/head'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect } from 'react'
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
 
 export default function Home (): ReactElement {
-  const [user, setUser] = useState<User | null>(null)
-  const handleLogin = (): void => {
-    loginWithGoogle().then(res => {
-      setUser(user)
-      console.log(user)
-    }).catch(console.error)
-  }
+  const { setUser } = useUser()
+
+  useEffect(() => {
+    authStateChanged(setUser)
+  }, [])
 
   return (
     <>
@@ -25,16 +21,6 @@ export default function Home (): ReactElement {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Header>
-        <div className='flex justify-between items-center h-full'>
-          <p className='text-xl text-white'>Markdown docs</p>
-          {
-            user === null
-              ? <LoginButton handleLogin={handleLogin} />
-              : <p>{user.displayName}</p>
-          }
-        </div>
-      </Header>
     </>
   )
 }
