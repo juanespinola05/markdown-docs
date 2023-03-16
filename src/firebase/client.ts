@@ -1,7 +1,7 @@
-import { UseUserHook } from '@/context/user'
-import { UserData } from '@/types'
+import { DB_HOST_PORT, isProduction } from '@/constants/environment'
 import { initializeApp } from 'firebase/app'
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, User, Unsubscribe, UserCredential } from 'firebase/auth'
+import { getAuth, connectAuthEmulator } from 'firebase/auth'
+import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCR9VMoa3z7WSDNvfkeXNJh8MsM5dWQUME',
@@ -14,26 +14,10 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
+export const db = getFirestore(app)
+export const auth = getAuth(isProduction ? app : undefined)
 
-const mapUserFromFirebaseAuth = (user: User | null): UserData | null => {
-  if (user === null) return null
-  const { displayName, photoURL, email } = user
-  return {
-    displayName,
-    photoURL,
-    email
-  }
-}
-
-export const authStateChanged = (onChange: UseUserHook['setUser']): Unsubscribe => {
-  return onAuthStateChanged(auth, (data) => {
-    const user = data !== null ? mapUserFromFirebaseAuth(data) : data
-    onChange(user)
-  })
-}
-
-export const loginWithGoogle = async (): Promise<UserCredential> => {
-  const googleProvider = new GoogleAuthProvider()
-  return await signInWithPopup(auth, googleProvider)
+if (!isProduction) {
+  connectAuthEmulator(auth, 'http://localhost:9099')
+  connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
 }

@@ -5,3 +5,17 @@ export interface UserData {
 }
 
 export type UserState = UserData | null | undefined
+
+export interface MarkdownDocData {
+  title: string
+  createdAt: Date
+  content: string
+  userId: string
+  lastEdition: Date
+}
+
+type MarkdownDocCreationAttributes = Pick<MarkdownDocData, 'title' | 'content' | 'userId'>
+
+export interface MarkdownDocFromCollection extends MarkdownDocData {
+  id: string
+}
