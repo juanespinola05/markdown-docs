@@ -1,12 +1,24 @@
-import Section from '@/layout/Section'
 import { FC, ReactElement } from 'react'
-import HorizontalScroll from '../components/HorizontalScroll'
+import { TEMPLATES } from '@/constants/templates'
+import Section from '@/layout/Section'
+import TemplateCreator from '@/components/TemplateCreator'
+import HorizontalScroll from '@/components/HorizontalScroll'
+import CreateBlankDocument from '@/components/CreateBlankDocument'
 
 const TemplatesGallery: FC = (): ReactElement => {
   return (
     <Section className='h-80 p-4 dark:bg-blue dark:bg-opacity-10 bg-gray-200'>
       <h2 className='text-gray-800 dark:text-white'>Create a new document</h2>
-      <HorizontalScroll />
+      <HorizontalScroll>
+        <CreateBlankDocument />
+        {
+          TEMPLATES.map(({ name, image }) => (
+            <TemplateCreator key={name}>
+              <img className='w-full h-full' src={image} alt={name} title={name} />
+            </TemplateCreator>
+          ))
+        }
+      </HorizontalScroll>
     </Section>
   )
 }

@@ -7,3 +7,11 @@
     @apply dark:bg-darkBlue bg-white
   }
 }
+
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-arrow {
+  @apply text-white dark:text-blue
+}

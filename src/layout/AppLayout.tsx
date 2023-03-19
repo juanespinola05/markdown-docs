@@ -3,8 +3,7 @@ import { useTheme } from 'next-themes'
 import { FC, PropsWithChildren } from 'react'
 
 const AppLayout: FC<PropsWithChildren> = ({ children }) => {
-  const { systemTheme, theme, setTheme } = useTheme()
-  // const currentTheme = theme === 'system' ? systemTheme : theme
+  const { theme, setTheme } = useTheme()
 
   const handleThemeChange = (): void => {
     const newTheme = theme === 'dark' ? 'light' : 'dark'

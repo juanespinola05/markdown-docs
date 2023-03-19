@@ -1,4 +1,4 @@
-import Template from '@/components/Template'
+import TemplateCreator from '@/components/TemplateCreator'
 import Section from '@/layout/Section'
 import { FC, ReactElement } from 'react'
 
@@ -8,9 +8,9 @@ const LatestDocuments: FC = (): ReactElement => {
       <div className='py-4'>
         <h2 className='text-xl'>Recent Documents</h2>
         <div>
-          <Template>
+          <TemplateCreator>
             <p>HOla</p>
-          </Template>
+          </TemplateCreator>
         </div>
       </div>
     </Section>
