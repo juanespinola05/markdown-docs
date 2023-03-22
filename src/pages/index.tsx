@@ -1,10 +1,10 @@
 import TemplatesGallery from '@/sections/TemplatesGallery'
-import { useUser } from '@/context/user'
+import useUser from '@/context/user'
 import Head from 'next/head'
 import { ReactElement, useEffect } from 'react'
 import LatestDocuments from '@/sections/LatestDocuments'
 import AppLayout from '@/layout/AppLayout'
-import { authStateChanged } from '@/firebase/actions/auth'
+import { authStateChanged } from '@/lib/firebase/actions/auth'
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })

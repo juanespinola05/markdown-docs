@@ -1,4 +1,4 @@
-import { loginWithGoogle } from '@/firebase/client'
+import { loginWithGoogle } from '@/lib/firebase/actions/auth'
 import { FC, PropsWithChildren } from 'react'
 
 type Variant = 'primary' | 'secondary'
