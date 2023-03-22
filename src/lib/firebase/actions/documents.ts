@@ -4,7 +4,7 @@ import { db } from '../client'
 
 const MARKDOWN_DOCS_COLLECTION_NAME = 'markdown-documents'
 
-export const createMarkdownDoc = async (data: MarkdownDocCreationAttributes): Promise<any> => {
+export const createMarkdownDoc = async (data: MarkdownDocCreationAttributes): Promise<string> => {
   try {
     const docRef = await addDoc(collection(db, MARKDOWN_DOCS_COLLECTION_NAME), {
       ...data,
