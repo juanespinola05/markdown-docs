@@ -1,3 +1,5 @@
+import { User } from 'firebase/auth'
+
 export interface UserData {
   displayName: string | null
   photoURL: string | null
@@ -18,4 +20,9 @@ type MarkdownDocCreationAttributes = Pick<MarkdownDocData, 'title' | 'content' |
 
 export interface MarkdownDocFromCollection extends MarkdownDocData {
   id: string
+}
+
+export interface UserContextState {
+  user: UserState
+  firebaseUser: User | null
 }
