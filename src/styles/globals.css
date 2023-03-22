@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-darkBlue bg-white
+    @apply bg-white
   }
 }
 
@@ -13,5 +13,5 @@
 }
 
 .popup-arrow {
-  @apply text-white dark:text-blue
+  @apply text-white
 }

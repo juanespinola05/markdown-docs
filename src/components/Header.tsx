@@ -1,4 +1,4 @@
-import { useUser } from '@/context/user'
+import useUser from '@/context/user'
 import { FC } from 'react'
 import Container from './Container'
 import LoggedInDetails from './LoggedInDetails'
@@ -8,7 +8,7 @@ import Logo from './Logo'
 const Header: FC = () => {
   const { user } = useUser()
   return (
-    <header className='h-16 bg-blue'>
+    <header className='h-16 bg-darkBlue'>
       <Container>
         <div className='flex justify-between items-center h-full'>
           <Logo />
