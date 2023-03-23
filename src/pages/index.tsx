@@ -3,7 +3,6 @@ import useUser from '@/context/user'
 import Head from 'next/head'
 import { ReactElement, useEffect } from 'react'
 import LatestDocuments from '@/sections/LatestDocuments'
-import AppLayout from '@/layout/AppLayout'
 import { authStateChanged } from '@/lib/firebase/actions/auth'
 // import { Inter } from 'next/font/google'
 
@@ -24,10 +23,8 @@ export default function Home (): ReactElement {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <AppLayout>
-        <TemplatesGallery />
-        <LatestDocuments />
-      </AppLayout>
+      <TemplatesGallery />
+      <LatestDocuments />
     </>
   )
 }
