@@ -1,5 +1,5 @@
 import { DB_HOST_PORT, isProduction } from '@/constants/environment'
-import { initializeApp } from 'firebase/app'
+import { getApps, initializeApp } from 'firebase/app'
 import { getAuth, connectAuthEmulator, setPersistence, browserSessionPersistence } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 
@@ -13,7 +13,11 @@ const firebaseConfig = {
   measurementId: 'G-KRW4QJB350'
 }
 
-const app = initializeApp(firebaseConfig)
+const apps = getApps()
+
+const app = (apps.length === 0)
+  ? initializeApp(firebaseConfig)
+  : apps[0]
 export const db = getFirestore(app)
 export const auth = getAuth(isProduction ? app : undefined)
 
@@ -21,5 +25,9 @@ void setPersistence(auth, browserSessionPersistence)
 
 if (!isProduction) {
   connectAuthEmulator(auth, 'http://localhost:9099')
-  connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
+  const host = (db.toJSON() as { settings?: { host?: string } }).settings?.host ?? ''
+
+  if (!host.startsWith('localhost')) {
+    connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
+  }
 }
