@@ -1,4 +1,5 @@
 import useUser from '@/context/user'
+import Link from 'next/link'
 import { FC } from 'react'
 import Container from './Container'
 import LoggedInDetails from './LoggedInDetails'
@@ -11,7 +12,9 @@ const Header: FC = () => {
     <header className='h-16 bg-darkBlue'>
       <Container>
         <div className='flex justify-between items-center h-full'>
-          <Logo />
+          <Link href='/'>
+            <Logo />
+          </Link>
           {
             user === null && (
               <div className='flex gap-2'>
