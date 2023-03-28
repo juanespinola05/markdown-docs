@@ -1,4 +1,5 @@
 import { User } from 'firebase/auth'
+import { DocumentData } from 'firebase/firestore'
 
 export interface UserData {
   displayName: string | null
@@ -25,4 +26,8 @@ export interface MarkdownDocFromCollection extends MarkdownDocData {
 export interface UserContextState {
   user: UserState
   firebaseUser: User | null
+}
+
+export interface DocumentContextState {
+  documents: DocumentData[]
 }
