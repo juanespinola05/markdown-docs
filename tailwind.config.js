@@ -12,6 +12,9 @@ module.exports = {
         lightGray: '#F1F2F6',
         yellow: '#ECD444',
         darkBlue: '#150d44'
+      },
+      screens: {
+        xs: '480px'
       }
     }
   },
