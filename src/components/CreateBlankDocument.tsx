@@ -7,7 +7,7 @@ import Spinner from './Spinner'
 
 const CreatorButton = forwardRef<RefObject<HTMLButtonElement>>((props, ref) => {
   return (
-    <Card className='w-48 h-60 max-w-xs'>
+    <Card className='w-48 h-60 max-w-xs shadow-md'>
       <button
         ref={ref as RefObject<HTMLButtonElement>}
         {...props}
@@ -25,16 +25,14 @@ const CreateBlankDocument: FC = (): ReactElement => {
   const closePopup = (): void => (popUpRef.current as any).close()
 
   return (
-    <>
-      <Popup
-        ref={popUpRef}
-        trigger={() => <CreatorButton />}
-        position='bottom left'
-        closeOnDocumentClick
-      >
-        <CreatorForm closePopup={closePopup} />
-      </Popup>
-    </>
+    <Popup
+      ref={popUpRef}
+      trigger={() => <CreatorButton />}
+      position='bottom left'
+      closeOnDocumentClick
+    >
+      <CreatorForm closePopup={closePopup} />
+    </Popup>
   )
 }
 
