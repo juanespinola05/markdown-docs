@@ -8,6 +8,7 @@ import { GetServerSideProps, NextPage } from 'next'
 import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import { getMarkdownDoccumentsByUser } from '@/lib/firebase/actions/documents'
 import { DocumentData } from 'firebase/firestore'
+import { useIsMount } from '@/hooks/useIsMount'
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -34,17 +35,19 @@ interface IProps {
 const Home: NextPage<IProps> = ({ documents }): ReactElement => {
   const { setUser, user } = useUser()
   const [docs, setDocs] = useState(documents)
+  const isMount = useIsMount()
 
   useEffect(() => {
     authStateChanged(setUser)
   }, [])
 
   useEffect(() => {
-    if (user === null) setDocs(null)
-    else {
+    if (user === null) {
+      if (!isMount) setDocs(null)
+    } else {
       getMarkdownDoccumentsByUser(user.email)
         .then(setDocs)
-        .catch(() => setDocs([]))
+        .catch(() => setDocs(null))
     }
   }, [user])
 
