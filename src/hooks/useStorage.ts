@@ -21,7 +21,7 @@ export default function useStorage (): UseStorageHook {
     if (user == null) throw new Error('Must login to perform this')
     const document = await createMarkdownDoc({
       title,
-      content: '',
+      content: `# ${title}`,
       userId: user.email as string
     })
     return document
