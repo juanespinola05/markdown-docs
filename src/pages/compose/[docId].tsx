@@ -1,27 +1,36 @@
 import useUser from '@/context/user'
 import { authStateChanged } from '@/lib/firebase/actions/auth'
 import { validateToken } from '@/lib/firebase/actions/authAdmin'
-import Section from '@/layout/Section'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import { GetServerSideProps, NextPage } from 'next'
 import { getMarkdownDocByIdAndUser } from '@/lib/firebase/actions/documents'
-import { MarkdownDocData } from '@/types'
+import { MarkdownDocFromCollection } from '@/types'
+import EditorSection from '@/sections/EditorSection'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { docId } = context.query
-  const { email } = await validateToken(context)
-  const documentData = await getMarkdownDocByIdAndUser(email as string, docId as string)
-
-  return {
-    props: {
-      data: { ...documentData }
+  try {
+    const { email } = await validateToken(context)
+    const documentData = await getMarkdownDocByIdAndUser(email as string, docId as string)
+    return {
+      props: {
+        data: { ...documentData, docId }
+      }
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/'
+      },
+      props: {}
     }
   }
 }
 
 interface IProps {
-  data: MarkdownDocData
+  data: MarkdownDocFromCollection
 }
 
 const DocumentCompose: NextPage<IProps> = ({ data }) => {
@@ -39,9 +48,7 @@ const DocumentCompose: NextPage<IProps> = ({ data }) => {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Section>
-        <pre>Creando {JSON.stringify(data, null, 2)}</pre>
-      </Section>
+      <EditorSection {...data} />
     </>
   )
 }
