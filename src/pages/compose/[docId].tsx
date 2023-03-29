@@ -4,7 +4,6 @@ import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import Section from '@/layout/Section'
 import Head from 'next/head'
 import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 import { GetServerSideProps, NextPage } from 'next'
 import { getMarkdownDocByIdAndUser } from '@/lib/firebase/actions/documents'
 import { MarkdownDocData } from '@/types'
@@ -27,7 +26,6 @@ interface IProps {
 
 const DocumentCompose: NextPage<IProps> = ({ data }) => {
   const { setUser } = useUser()
-  const { query: { docId } } = useRouter()
 
   useEffect(() => {
     authStateChanged(setUser)
