@@ -28,7 +28,7 @@ const EditorSection: FC<IProps> = ({
 
   return (
     <section className='h-screen'>
-      <div data-color-mode='light' className='bg-pink-200 h-full'>
+      <div data-color-mode='light' className='bg-gray-200 h-full'>
         <MDEditor
           height={'100%' as any}
           value={value}
