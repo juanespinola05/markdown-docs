@@ -1,11 +1,16 @@
 import { Html, Head, Main, NextScript } from 'next/document'
 import { ReactElement } from 'react'
 
-export default function Document (): ReactElement {
+interface DocumentProps {
+  dangerousAsPath: string
+}
+
+export default function Document ({ dangerousAsPath }: DocumentProps): ReactElement {
+  const isCompose = dangerousAsPath.includes('compose')
   return (
     <Html lang='en'>
       <Head />
-      <body>
+      <body className={isCompose ? 'overflow-hidden' : ''}>
         <Main />
         <NextScript />
       </body>
