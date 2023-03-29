@@ -1,4 +1,4 @@
-import { MarkdownDocData } from '@/types'
+import { MarkdownDocFromCollection } from '@/types'
 import { DocumentData } from 'firebase/firestore'
 import { FC, ReactElement } from 'react'
 import LatestDocument from './LatestDocument'
@@ -28,7 +28,7 @@ const ListOfLatestDocuments: FC<IProps> = ({ documents }): ReactElement => {
         documents.map(doc => {
           return (
             <LatestDocument
-              key={doc.title} {...doc as MarkdownDocData}
+              key={doc.title} {...doc as MarkdownDocFromCollection}
             />
           )
         })

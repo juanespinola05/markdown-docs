@@ -39,7 +39,7 @@ export const getMarkdownDoccumentsByUser = async (email: UserData['email']): Pro
   const documents: DocumentData[] = []
   querySnapshot.forEach(doc => {
     const data = serializeDocumentData(doc.data())
-    documents.push(data)
+    documents.push({ ...data, docId: doc.id })
   })
 
   return documents
