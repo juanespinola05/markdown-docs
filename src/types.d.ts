@@ -7,7 +7,7 @@ export interface UserData {
   email: string | null
 }
 
-export type UserState = UserData | null | undefined
+export type UserState = UserData | null
 
 export interface MarkdownDocData {
   title: string
@@ -26,8 +26,4 @@ export interface MarkdownDocFromCollection extends MarkdownDocData {
 export interface UserContextState {
   user: UserState
   firebaseUser: User | null
-}
-
-export interface DocumentContextState {
-  documents: DocumentData[]
 }
