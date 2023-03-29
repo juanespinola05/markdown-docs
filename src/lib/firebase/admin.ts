@@ -16,5 +16,7 @@ try {
     : apps[0]
 } catch (error) {}
 
+// @ts-expect-error
 export const adminAuth = getAuth(app)
+// @ts-expect-error
 export const adminFirestore = getFirestore(app)
