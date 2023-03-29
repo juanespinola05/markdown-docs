@@ -1,6 +1,6 @@
 import { DB_HOST_PORT, isProduction } from '@/constants/environment'
 import { getApps, initializeApp } from 'firebase/app'
-import { getAuth, connectAuthEmulator, setPersistence, browserSessionPersistence } from 'firebase/auth'
+import { getAuth, connectAuthEmulator, setPersistence, browserLocalPersistence } from 'firebase/auth'
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -21,7 +21,7 @@ const app = (apps.length === 0)
 export const db = getFirestore(app)
 export const auth = getAuth(isProduction ? app : undefined)
 
-void setPersistence(auth, browserSessionPersistence)
+void setPersistence(auth, browserLocalPersistence)
 
 if (!isProduction) {
   connectAuthEmulator(auth, 'http://localhost:9099')
