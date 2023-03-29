@@ -1,6 +1,6 @@
-import { MarkdownDocCreationAttributes, UserData } from '@/types'
+import { MarkdownDocCreationAttributes, MarkdownDocData, MarkdownDocFromCollection, UserData } from '@/types'
 import { serializeDocumentData } from '@/utils/firebase'
-import { addDoc, collection, doc, DocumentData, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore'
 import { db } from '../client'
 
 const MARKDOWN_DOCS_COLLECTION_NAME = 'markdown-documents'
@@ -20,27 +20,35 @@ export const createMarkdownDoc = async (data: MarkdownDocCreationAttributes): Pr
   }
 }
 
-export const getMarkdownDocByIdAndUser = async (userEmail: string, docId: string): Promise<DocumentData> => {
+export const getMarkdownDocByIdAndUser = async (userEmail: string, docId: string): Promise<MarkdownDocData> => {
   const snapshot = await getDoc(doc(db, MARKDOWN_DOCS_COLLECTION_NAME, docId))
 
   if (snapshot.exists()) {
     const data = snapshot.data()
     if (data.userId !== userEmail) throw new Error('Not found')
     return {
-      ...serializeDocumentData(data)
+      ...serializeDocumentData<MarkdownDocData>(data)
     }
   } else throw new Error('Not found')
 }
 
-export const getMarkdownDoccumentsByUser = async (email: UserData['email']): Promise<DocumentData[]> => {
+export const getMarkdownDoccumentsByUser = async (email: UserData['email']): Promise<MarkdownDocFromCollection[]> => {
   const q = query(markdownCollection, where('userId', '==', email))
   const querySnapshot = await getDocs(q)
 
-  const documents: DocumentData[] = []
+  const documents: MarkdownDocFromCollection[] = []
   querySnapshot.forEach(doc => {
-    const data = serializeDocumentData(doc.data())
+    const data = serializeDocumentData<MarkdownDocData>(doc.data())
     documents.push({ ...data, docId: doc.id })
   })
 
   return documents
+}
+
+export const updateMarkdownDoc = async (params: Partial<MarkdownDocData>, docId: string): Promise<void> => {
+  getDoc(doc(db, MARKDOWN_DOCS_COLLECTION_NAME, docId))
+    .then(doc => {
+      void updateDoc(doc.ref, params)
+    })
+    .catch(err => console.error(err))
 }

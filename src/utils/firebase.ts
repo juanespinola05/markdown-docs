@@ -12,7 +12,7 @@ export const mapUserFromFirebaseAuth = (user: User | null): UserData | null => {
   }
 }
 
-export const serializeDocumentData = (document: DocumentData): object => {
+export function serializeDocumentData<T> (document: DocumentData): T {
   const entries = Object.entries(document)
   const serialized = entries.map(([key, value]) => (
     value instanceof Timestamp
