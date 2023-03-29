@@ -1,9 +1,9 @@
-import useTimeAgo from '@/hooks/useTimeAgo'
 import { MarkdownDocData } from '@/types'
 import { FC, ReactElement } from 'react'
 import Card from './Card'
 import DocumentCardOptions from './DocumentCardOptions'
 import DocumentIcon from '@/assets/document.svg'
+import DocumentTimeAgo from './DocumentTimeAgo'
 
 interface IProps extends Pick<MarkdownDocData, 'title' | 'lastEdition'> {
   docId: string
@@ -14,7 +14,6 @@ const LatestDocument: FC<IProps> = ({
   title,
   docId
 }): ReactElement => {
-  const timeAgo = useTimeAgo(lastEdition ?? Date.now())
   return (
     <a href={`/compose/${docId}`} className='block' title={title}>
       <Card className='h-80 w-full md:w-52 border-[1px] border-gray-200'>
@@ -24,7 +23,7 @@ const LatestDocument: FC<IProps> = ({
           <div className='flex items-center justify-between'>
             <div className='flex gap-2 items-center'>
               <DocumentIcon className='w-6 fill-blue' />
-              <p className='text-slate-600 text-xs'>Edited {timeAgo}</p>
+              <DocumentTimeAgo timestamp={lastEdition} />
             </div>
             <DocumentCardOptions />
           </div>
