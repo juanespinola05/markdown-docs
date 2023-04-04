@@ -3,7 +3,6 @@ import useUser from '@/context/user'
 import Head from 'next/head'
 import { ReactElement, useEffect, useState } from 'react'
 import LatestDocuments from '@/sections/LatestDocuments'
-import { authStateChanged } from '@/lib/firebase/actions/auth'
 import { GetServerSideProps, NextPage } from 'next'
 import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import { getMarkdownDoccumentsByUser } from '@/lib/firebase/actions/documents'
@@ -33,13 +32,9 @@ interface IProps {
 }
 
 const Home: NextPage<IProps> = ({ documents }): ReactElement => {
-  const { setUser, user } = useUser()
+  const { user } = useUser()
   const [docs, setDocs] = useState(documents)
   const isMount = useIsMount()
-
-  useEffect(() => {
-    authStateChanged(setUser)
-  }, [])
 
   useEffect(() => {
     if (user === null) {

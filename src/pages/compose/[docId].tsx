@@ -1,8 +1,5 @@
-import useUser from '@/context/user'
-import { authStateChanged } from '@/lib/firebase/actions/auth'
 import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import { GetServerSideProps, NextPage } from 'next'
 import { getMarkdownDocByIdAndUser } from '@/lib/firebase/actions/documents'
 import { MarkdownDocFromCollection } from '@/types'
@@ -10,6 +7,8 @@ import EditorSection from '@/sections/EditorSection'
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { docId } = context.query
+  // @ts-expect-error
+  console.log(context.req.locals)
   try {
     const { email } = await validateToken(context)
     const documentData = await getMarkdownDocByIdAndUser(email as string, docId as string)
@@ -19,6 +18,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   } catch (error) {
+    console.log('🚀 ~ file: [docId].tsx:22 ~ constgetServerSideProps:GetServerSideProps= ~ error:', error)
     return {
       redirect: {
         permanent: false,
@@ -34,12 +34,6 @@ interface IProps {
 }
 
 const DocumentCompose: NextPage<IProps> = ({ data }) => {
-  const { setUser } = useUser()
-
-  useEffect(() => {
-    authStateChanged(setUser)
-  }, [])
-
   return (
     <>
       <Head>
