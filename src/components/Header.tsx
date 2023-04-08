@@ -1,13 +1,12 @@
-import useUser from '@/context/user'
 import Link from 'next/link'
 import { FC } from 'react'
 import Container from './Container'
 import LoggedInDetails from './LoggedInDetails'
-import LoginButton from './LoginButton'
 import Logo from './Logo'
+import { useAuthUser } from 'next-firebase-auth'
 
 const Header: FC = () => {
-  const { user } = useUser()
+  const authUser = useAuthUser()
   return (
     <header className='h-16 bg-darkBlue'>
       <Container>
@@ -16,18 +15,22 @@ const Header: FC = () => {
             <Logo />
           </Link>
           {
-            user === null && (
+            authUser.email === null && (
               <div className='flex gap-2'>
-                <LoginButton>Log In</LoginButton>
-                <LoginButton variant='secondary'>Sign Up</LoginButton>
+                <Link
+                  href='/auth'
+                  className='py-1 px-2 rounded-md font-bold text-darkBlue bg-white'
+                >
+                  Start Creating
+                </Link>
               </div>
             )
           }
           {
-            user?.displayName !== undefined && (
+            authUser.displayName !== null && (
               <LoggedInDetails
-                avatar={user.photoURL as string}
-                displayName={user.displayName as string}
+                avatar={authUser.photoURL as string}
+                displayName={authUser.displayName}
               />
             )
           }
