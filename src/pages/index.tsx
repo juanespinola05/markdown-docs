@@ -8,6 +8,8 @@ import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import { getMarkdownDoccumentsByUser } from '@/lib/firebase/actions/documents'
 import { DocumentData } from 'firebase/firestore'
 import { useIsMount } from '@/hooks/useIsMount'
+import { withAuthUser } from 'next-firebase-auth'
+import AppLayout from '@/layout/AppLayout'
 // import { Inter } from 'next/font/google'
 
 // const inter = Inter({ subsets: ['latin'] })
@@ -59,5 +61,7 @@ const Home: NextPage<IProps> = ({ documents }): ReactElement => {
     </>
   )
 }
+// @ts-expect-error
+Home.PageLayout = AppLayout
 
-export default Home
+export default withAuthUser()(Home as any)

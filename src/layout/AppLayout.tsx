@@ -1,8 +1,9 @@
 import Header from '@/components/Header'
 import { useTheme } from 'next-themes'
-import { FC, PropsWithChildren } from 'react'
+import { ComponentType, PropsWithChildren } from 'react'
+import { withAuthUser } from 'next-firebase-auth'
 
-const AppLayout: FC<PropsWithChildren> = ({ children }) => {
+const AppLayout: ComponentType<PropsWithChildren> = ({ children }) => {
   const { theme, setTheme } = useTheme()
 
   const handleThemeChange = (): void => {
@@ -25,4 +26,4 @@ const AppLayout: FC<PropsWithChildren> = ({ children }) => {
   )
 }
 
-export default AppLayout
+export default withAuthUser<PropsWithChildren>()(AppLayout)
