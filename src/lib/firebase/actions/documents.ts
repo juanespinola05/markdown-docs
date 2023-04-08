@@ -1,7 +1,8 @@
-import { MarkdownDocCreationAttributes, MarkdownDocData, MarkdownDocFromCollection, UserData } from '@/types'
+import { MarkdownDocCreationAttributes, MarkdownDocData, MarkdownDocFromCollection } from '@/types'
 import { serializeDocumentData } from '@/utils/firebase'
 import { addDoc, collection, doc, getDoc, getDocs, query, Timestamp, updateDoc, where } from 'firebase/firestore'
 import { db } from '../client'
+import { User } from 'firebase/auth'
 
 const MARKDOWN_DOCS_COLLECTION_NAME = 'markdown-documents'
 const markdownCollection = collection(db, MARKDOWN_DOCS_COLLECTION_NAME)
@@ -32,8 +33,8 @@ export const getMarkdownDocByIdAndUser = async (userEmail: string, docId: string
   } else throw new Error('Not found')
 }
 
-export const getMarkdownDoccumentsByUser = async (email: UserData['email']): Promise<MarkdownDocFromCollection[]> => {
-  const q = query(markdownCollection, where('userId', '==', email))
+export const getMarkdownDoccumentsByUser = async (userId: User['uid']): Promise<MarkdownDocFromCollection[]> => {
+  const q = query(markdownCollection, where('userId', '==', userId))
   const querySnapshot = await getDocs(q)
 
   const documents: MarkdownDocFromCollection[] = []
