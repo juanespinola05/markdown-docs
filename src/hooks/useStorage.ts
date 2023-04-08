@@ -1,6 +1,6 @@
-import useUser from '@/context/user'
 import { createMarkdownDoc, getMarkdownDocByIdAndUser, getMarkdownDoccumentsByUser, updateMarkdownDoc } from '@/lib/firebase/actions/documents'
 import { MarkdownDocData, MarkdownDocFromCollection } from '@/types'
+import { useAuthUser } from 'next-firebase-auth'
 
 type UpdateDocument = (params: Partial<MarkdownDocData>, docId: string) => Promise<void>
 type CreateBlankDocument = (title: string) => Promise<string>
@@ -15,14 +15,14 @@ interface UseStorageHook {
 }
 
 export default function useStorage (): UseStorageHook {
-  const { user } = useUser()
+  const { id } = useAuthUser()
 
   const createBlankDocument: CreateBlankDocument = async (title) => {
-    if (user == null) throw new Error('Must login to perform this')
+    if (id == null) throw new Error('Must login to perform this')
     const document = await createMarkdownDoc({
       title,
       content: `# ${title}`,
-      userId: user.email as string
+      userId: id
     })
     return document
   }
