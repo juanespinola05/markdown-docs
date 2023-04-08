@@ -1,7 +1,7 @@
-import { DB_HOST_PORT, isProduction } from '@/constants/environment'
+import { isProduction } from '@/constants/environment'
 import { getApps, initializeApp } from 'firebase/app'
-import { getAuth, connectAuthEmulator, setPersistence, browserLocalPersistence } from 'firebase/auth'
-import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore'
+import { connectAuthEmulator, getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCR9VMoa3z7WSDNvfkeXNJh8MsM5dWQUME',
@@ -21,13 +21,13 @@ const app = (apps.length === 0)
 export const db = getFirestore(app)
 export const auth = getAuth(isProduction ? app : undefined)
 
-void setPersistence(auth, browserLocalPersistence)
+// void setPersistence(auth, browserLocalPersistence)
 
 if (!isProduction) {
   connectAuthEmulator(auth, 'http://localhost:9099')
-  const host = (db.toJSON() as { settings?: { host?: string } }).settings?.host ?? ''
+  // const host = (db.toJSON() as { settings?: { host?: string } }).settings?.host ?? ''
 
-  if (!host.startsWith('localhost')) {
-    connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
-  }
+  // if (!host.startsWith('localhost')) {
+  //   connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
+  // }
 }
