@@ -1,24 +1,29 @@
-import { validateToken } from '@/lib/firebase/actions/authAdmin'
 import Head from 'next/head'
-import { GetServerSideProps, NextPage } from 'next'
+import { NextPage } from 'next'
 import { getMarkdownDocByIdAndUser } from '@/lib/firebase/actions/documents'
 import { MarkdownDocFromCollection } from '@/types'
 import EditorSection from '@/sections/EditorSection'
+import { AuthAction, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
+import AppLayout from '@/layout/AppLayout'
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { docId } = context.query
-  // @ts-expect-error
-  console.log(context.req.locals)
+export const getServerSideProps = withAuthUserTokenSSR({
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+})(async ({ AuthUser, query }) => {
+  const userId = AuthUser.id as string
+  const { docId } = query
   try {
-    const { email } = await validateToken(context)
-    const documentData = await getMarkdownDocByIdAndUser(email as string, docId as string)
+    const documentData = await getMarkdownDocByIdAndUser(userId, docId as string)
+
     return {
       props: {
-        data: { ...documentData, docId }
+        data: {
+          ...documentData,
+          docId
+        }
       }
     }
-  } catch (error) {
-    console.log('🚀 ~ file: [docId].tsx:22 ~ constgetServerSideProps:GetServerSideProps= ~ error:', error)
+  } catch (e) {
+    console.error(e)
     return {
       redirect: {
         permanent: false,
@@ -27,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {}
     }
   }
-}
+})
 
 interface IProps {
   data: MarkdownDocFromCollection
@@ -47,4 +52,9 @@ const DocumentCompose: NextPage<IProps> = ({ data }) => {
   )
 }
 
-export default DocumentCompose
+// @ts-expect-error
+DocumentCompose.PageLayout = AppLayout
+
+export default withAuthUser({
+  whenUnauthedBeforeInit: AuthAction.REDIRECT_TO_LOGIN
+})(DocumentCompose as any)

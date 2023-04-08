@@ -1,52 +1,45 @@
 import TemplatesGallery from '@/sections/TemplatesGallery'
-import useUser from '@/context/user'
 import Head from 'next/head'
 import { ReactElement, useEffect, useState } from 'react'
 import LatestDocuments from '@/sections/LatestDocuments'
-import { GetServerSideProps, NextPage } from 'next'
-import { validateToken } from '@/lib/firebase/actions/authAdmin'
+import { NextPage } from 'next'
 import { getMarkdownDoccumentsByUser } from '@/lib/firebase/actions/documents'
 import { DocumentData } from 'firebase/firestore'
 import { useIsMount } from '@/hooks/useIsMount'
-import { withAuthUser } from 'next-firebase-auth'
+import { AuthAction, useAuthUser, withAuthUser, withAuthUserTokenSSR } from 'next-firebase-auth'
 import AppLayout from '@/layout/AppLayout'
-// import { Inter } from 'next/font/google'
 
-// const inter = Inter({ subsets: ['latin'] })
+export const getServerSideProps = withAuthUserTokenSSR({
+  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN
+})(async ({ AuthUser }) => {
+  const userId = AuthUser.id as string
+  const documents = await getMarkdownDoccumentsByUser(userId)
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  try {
-    const { email } = await validateToken(context)
-    const documents = await getMarkdownDoccumentsByUser(email as string)
-    return {
-      props: {
-        documents
-      }
+  return {
+    props: {
+      documents
     }
-  } catch (error) {
-    console.log(error)
-    return { props: { documents: null } }
   }
-}
+})
 
 interface IProps {
   documents: DocumentData[] | null
 }
 
 const Home: NextPage<IProps> = ({ documents }): ReactElement => {
-  const { user } = useUser()
+  const { firebaseUser } = useAuthUser()
   const [docs, setDocs] = useState(documents)
   const isMount = useIsMount()
 
   useEffect(() => {
-    if (user === null) {
+    if (firebaseUser === null) {
       if (!isMount) setDocs(null)
     } else {
-      getMarkdownDoccumentsByUser(user.email)
+      getMarkdownDoccumentsByUser(firebaseUser.uid)
         .then(setDocs)
         .catch(() => setDocs(null))
     }
-  }, [user])
+  }, [firebaseUser])
 
   return (
     <>
