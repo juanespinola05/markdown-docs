@@ -10,7 +10,7 @@ interface IProps {
 const DocumentTimeAgo: FC<IProps> = ({ timestamp }): ReactElement => {
   const timeAgo = useTimeAgo(timestamp ?? Date.now())
   return (
-    <p className='text-slate-600 text-xs'>Edited {timeAgo}</p>
+    <p className='text-slate-600 dark:text-gray-400 text-xs'>Edited {timeAgo}</p>
   )
 }
 

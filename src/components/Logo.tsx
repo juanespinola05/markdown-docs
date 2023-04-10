@@ -1,12 +1,16 @@
 import { FC } from 'react'
+import LogoIcon from '../assets/logotipo.svg'
 
-const Logo: FC = () => {
+interface IProps {
+  className?: string
+  width?: string
+}
+
+const Logo: FC<IProps> = ({ className = '', width = '100' }) => {
   return (
-    <img
-      className='h-16 w-32 object-cover object-center'
-      src='/logotipo.webp'
-      alt='Markdown Docs Logo'
-    />
+    <div className={className}>
+      <LogoIcon width={width} height={+width / 2} />
+    </div>
   )
 }
 

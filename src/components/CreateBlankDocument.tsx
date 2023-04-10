@@ -7,11 +7,11 @@ import Spinner from './Spinner'
 
 const CreatorButton = forwardRef<RefObject<HTMLButtonElement>>((props, ref) => {
   return (
-    <Card className='w-48 h-60 max-w-xs shadow-md'>
+    <Card className='w-48 h-60 max-w-xs dark:bg-slate-700'>
       <button
         ref={ref as RefObject<HTMLButtonElement>}
         {...props}
-        className='button text-7xl text-center flex items-center h-full w-full justify-center text-blue '
+        className='text-7xl button text-center flex items-center h-full w-full justify-center text-gray-900 dark:text-slate-200'
         aria-describedby='0'
       >
         +

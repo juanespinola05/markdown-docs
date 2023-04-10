@@ -4,6 +4,7 @@ import Card from './Card'
 import DocumentCardOptions from './DocumentCardOptions'
 import DocumentIcon from '@/assets/document.svg'
 import DocumentTimeAgo from './DocumentTimeAgo'
+import Link from 'next/link'
 
 interface IProps extends Pick<MarkdownDocData, 'title' | 'lastEdition'> {
   docId: string
@@ -15,23 +16,20 @@ const LatestDocument: FC<IProps> = ({
   docId
 }): ReactElement => {
   return (
-    <Card className='h-80 w-full md:w-52 border-[1px] border-gray-200'>
-      <div className='h-60' />
-      <div className='h-20 border-[1px] px-2 py-4'>
-        <a
-          href={`/compose/${docId}`}
-          title={title}
-          className='text-slate-800 pl-1 hover:underline'
-        >
-          {title}
-        </a>
-        <div className='flex items-center justify-between'>
-          <div className='flex gap-2 items-center'>
-            <DocumentIcon className='w-6 fill-blue' />
-            <DocumentTimeAgo timestamp={lastEdition} />
-          </div>
-          <DocumentCardOptions />
+    <Card className='h-24 w-full bg-white dark:bg-slate-700 flex items-center'>
+      <Link
+        href={`/compose/${docId}`}
+        title={title}
+        className='h-full w-full text-slate-800 dark:text-gray-200 px-6 flex justify-center flex-col'
+      >
+        <h4 className='font-bold'>{title}</h4>
+        <div className='flex gap-2 items-center'>
+          <DocumentIcon className='w-6 fill-blue' />
+          <DocumentTimeAgo timestamp={lastEdition} />
         </div>
+      </Link>
+      <div className='w-16 h-16 grid place-content-center'>
+        <DocumentCardOptions />
       </div>
     </Card>
   )

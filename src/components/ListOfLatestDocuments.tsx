@@ -23,7 +23,7 @@ const ListOfLatestDocuments: FC<IProps> = ({ documents }): ReactElement => {
     )
   }
   return (
-    <div className='grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 xl:grid-cols-5 place-items-center'>
+    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 place-items-center'>
       {
         documents.map(doc => {
           return (

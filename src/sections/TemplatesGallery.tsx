@@ -7,8 +7,8 @@ import CreateBlankDocument from '@/components/CreateBlankDocument'
 
 const TemplatesGallery: FC = (): ReactElement => {
   return (
-    <Section className='h-80 p-4 bg-gray-200'>
-      <h2 className='text-gray-800'>Create a new document</h2>
+    <Section className='h-80 p-4 bg-gray-100 dark:bg-slate-800'>
+      <h2 className='text-gray-800 dark:text-slate-200'>Create a new document</h2>
       <HorizontalScroll>
         <CreateBlankDocument />
         {

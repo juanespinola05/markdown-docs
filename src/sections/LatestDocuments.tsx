@@ -12,7 +12,10 @@ const LatestDocuments: FC<IProps> = ({ documents }): ReactElement => {
     <Section>
       <div className='py-4'>
         <div className='pb-4'>
-          <h2 className='text-xl'>Recent Documents</h2>
+          <h2 className='text-2xl font-bold'>Recent Documents</h2>
+          <p className='text-slate-500 dark:text-slate-400'>
+            <strong>{documents?.length ?? 0}</strong> documents
+          </p>
         </div>
         <ListOfLatestDocuments documents={documents} />
       </div>
