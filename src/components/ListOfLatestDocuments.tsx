@@ -28,7 +28,7 @@ const ListOfLatestDocuments: FC<IProps> = ({ documents }): ReactElement => {
         documents.map(doc => {
           return (
             <LatestDocument
-              key={doc.title} {...doc as MarkdownDocFromCollection}
+              key={doc.docId} {...doc as MarkdownDocFromCollection}
             />
           )
         })
