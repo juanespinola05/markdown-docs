@@ -57,4 +57,7 @@ const Home: NextPage<IProps> = ({ documents }): ReactElement => {
 // @ts-expect-error
 Home.PageLayout = AppLayout
 
-export default withAuthUser()(Home as any)
+export default withAuthUser({
+  whenUnauthedBeforeInit: AuthAction.REDIRECT_TO_LOGIN,
+  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN
+})(Home as any)
