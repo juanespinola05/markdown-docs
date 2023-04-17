@@ -3,6 +3,9 @@ import { getApps, initializeApp } from 'firebase/app'
 import { connectAuthEmulator, getAuth } from 'firebase/auth'
 import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore'
 
+import 'firebase/compat/auth'
+import compatApp from 'firebase/compat/app'
+
 const firebaseConfig = {
   apiKey: 'AIzaSyCR9VMoa3z7WSDNvfkeXNJh8MsM5dWQUME',
   authDomain: 'markdown-docs-20776.firebaseapp.com',
@@ -31,3 +34,6 @@ if (!isProduction) {
     connectFirestoreEmulator(db, 'localhost', DB_HOST_PORT as number)
   }
 }
+
+compatApp.initializeApp(firebaseConfig)
+export const authForFirebaseUI = compatApp.auth()
