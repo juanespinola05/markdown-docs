@@ -13,7 +13,7 @@ const Header: FC = () => {
     <header className='h-16 dark:bg-slate-900'>
       <Container>
         <div className='flex justify-between items-center h-full'>
-          <Link href='/'>
+          <Link href='/app'>
             <Logo className='text-black dark:text-white' width='130' />
           </Link>
           <div className='flex gap-2 items-center'>
