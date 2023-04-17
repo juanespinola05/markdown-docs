@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useIsMount } from './useIsMount'
 
 type DateUnit = 'day' | 'hour' | 'minute' | 'second'
 
@@ -14,6 +15,8 @@ interface TimeAgoParams {
   unit: 'day' | 'hour' | 'minute' | 'second'
 }
 
+const defaultTimeAgo: TimeAgoParams = { value: 1, unit: 'second' }
+
 const getDateDiffs = (timestamp: number): TimeAgoParams => {
   const now = Date.now()
   const elapsed = (timestamp - now) / 1000
@@ -25,25 +28,23 @@ const getDateDiffs = (timestamp: number): TimeAgoParams => {
       return { value, unit }
     }
   }
-  return { value: 1, unit: 'second' }
+  return defaultTimeAgo
 }
 
-export default function useTimeAgo (date: Date | string): string {
+export default function useTimeAgo (date: string): string {
   const timestamp = new Date(date).getTime()
   const [timeago, setTimeago] = useState(() => getDateDiffs(timestamp))
-
+  const isMount = useIsMount()
   useEffect(() => {
     const interval = setInterval(() => {
       const newTimeAgo = getDateDiffs(timestamp)
       setTimeago(newTimeAgo)
     }, 5000)
-
     return () => clearInterval(interval)
   }, [timestamp])
 
   const rtf = new Intl.RelativeTimeFormat('en', { style: 'short' })
 
-  const { value, unit } = timeago
-
+  const { value, unit } = isMount ? defaultTimeAgo : timeago
   return rtf.format(value, unit)
 }
