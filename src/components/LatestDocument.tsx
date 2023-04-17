@@ -5,9 +5,9 @@ import DocumentCardOptions from './DocumentCardOptions'
 import DocumentIcon from '@/assets/document.svg'
 import DocumentTimeAgo from './DocumentTimeAgo'
 import Link from 'next/link'
-
-interface IProps extends Pick<MarkdownDocData, 'title' | 'lastEdition'> {
+interface IProps extends Pick<MarkdownDocData, 'title'> {
   docId: string
+  lastEdition: string
 }
 
 const LatestDocument: FC<IProps> = ({

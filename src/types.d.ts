@@ -20,6 +20,7 @@ type MarkdownDocCreationAttributes = Pick<MarkdownDocData, 'title' | 'content' |
 
 export interface MarkdownDocFromCollection extends MarkdownDocData {
   docId: string
+  lastEdition: string
 }
 
 export interface UserContextState {
