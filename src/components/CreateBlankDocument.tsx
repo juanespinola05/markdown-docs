@@ -81,7 +81,7 @@ function CreatorForm ({ closePopup }: { closePopup: any }): ReactElement {
               <button
                 type='button'
                 onClick={closePopup}
-                className='close p-1 px-2text-slate-500 items-center border-[1px] rounded-md border-slate-400 text-slate-900'
+                className='close px-4 px-2text-slate-500 items-center border-[1px] rounded-md border-slate-400 text-slate-900'
               >
                 Cancel
               </button>
